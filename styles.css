@@ -1,0 +1,1569 @@
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+/*
+ * Make the background music player visible and unobtrusive.  The native
+ * browser audio controls provide play/pause and volume adjustment so
+ * guests can manage the music to their liking.  Position the player
+ * fixed in the bottom right corner to keep it accessible no matter
+ * where the visitor is on the page.  A subtle shadow and rounded
+ * corners integrate it with the rest of the design.
+ */
+#bgMusic {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  width: 250px;
+  max-width: 80vw;
+  background-color: var(--background-color);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  margin: 0 0 0.5rem;
+  color: var(--heading-color);
+}
+
+p {
+  margin-top: 0;
+}
+
+/* CSS variables for theme */
+:root {
+  --primary-color: #ba8ca2;
+  --secondary-color: #e9d6c6;
+  --accent-color: #c49e8b;
+  --background-color: #faf7f5;
+  --text-color: #333;
+  --heading-color: #222;
+  --nav-bg-color: rgba(255, 255, 255, 0.8);
+  --card-background: rgba(255, 255, 255, 0.9);
+  --card-blur: 12px;
+  --card-radius: 1rem;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  --transition-fast: 0.2s ease;
+}
+
+/* Utility classes */
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+section {
+  padding: 4rem 0;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.alt-bg {
+  background: #f5efec;
+}
+
+/* Navigation */
+.nav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--nav-bg-color);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.nav .logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--heading-color);
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: var(--heading-color);
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  transition: color var(--transition-fast);
+}
+
+.nav-links li a:hover {
+  color: var(--primary-color);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.hero-content {
+  backdrop-filter: blur(4px);
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  max-width: 90%;
+  color: #fff;
+}
+
+/* Ensure hero links and headings are white */
+.hero-content h2,
+.hero-content p,
+.hero-content a {
+  color: #fff;
+}
+
+.hero-heading {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.hero-names {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.hero-date {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.btn.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #9c7187;
+}
+
+.btn.secondary {
+  background: var(--secondary-color);
+  color: var(--heading-color);
+}
+
+.btn.secondary:hover {
+  background: #d1c2b4;
+}
+
+.btn.danger {
+  background: #e57373;
+  color: white;
+}
+
+.btn.danger:hover {
+  background: #cc5c5c;
+}
+
+.btn.small {
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Cards & grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  /* Increase line height to improve legibility in long paragraphs */
+  line-height: 1.6;
+  /* Space out paragraphs inside cards */
+}
+
+/* Reduce crowded appearance inside detail cards */
+#details .card p {
+  /* Give paragraphs more breathing room */
+  margin-bottom: 1rem;
+}
+
+/* Use primary color for emphasised text within detail cards rather than red */
+#details .card strong {
+  /* Style headings inside details cards */
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: var(--primary-color);
+}
+
+/* Edit mode styling */
+/* In edit mode highlight gallery images without making them draggable.
+   A dashed border indicates the image is editable, but the cursor remains default
+   so users aren’t misled into dragging photos out of place. */
+.edit-mode .gallery-grid img {
+  border: 2px dashed var(--primary-color);
+  cursor: default;
+}
+
+/* Controls displayed under each gallery image when edit mode is active */
+.gallery-controls {
+  /* Default flex layout for controls when not overlaid via wrapper. */
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.gallery-controls button {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.4rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  background: var(--secondary-color);
+  color: var(--heading-color);
+  box-shadow: var(--shadow);
+}
+
+/* Style the slider used to resize gallery images in edit mode. It inherits
+   accent colours for consistency with the site palette. */
+.gallery-controls input[type="range"] {
+  -webkit-appearance: none;
+  height: 0.4rem;
+  /* Width of each slider. Slightly narrower now that multiple sliders may appear */
+  width: 3rem;
+  border-radius: 0.2rem;
+  background: var(--secondary-color);
+  outline: none;
+}
+.gallery-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+.gallery-controls input[type="range"]::-moz-range-thumb {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+.gallery-controls button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* When a gallery image is wrapped in .gallery-item, position the controls
+   overlay at the bottom of the image. The wrapper must be position:relative. */
+.gallery-item {
+  position: relative;
+}
+.gallery-item .gallery-controls {
+  /* When wrapped in .gallery-item the controls should appear below the image
+     rather than overlaying it. Use static positioning so they stack. */
+  position: static;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Detail card collapsing
+   Adds a neat “Read more/Less” toggle to long detail boxes so they don’t
+   dominate the page. When collapsed, the card height is capped and a
+   gradient overlay hints that more content is available. */
+.card.collapsed {
+  /* Limit the height of each collapsed card so information is displayed
+     compactly. A lower height prevents the boxes from feeling crowded. */
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+  transition: max-height 0.3s ease;
+}
+.card.collapsed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* Subtler fade overlay height so more of the card is visible */
+  height: 3rem;
+  background: linear-gradient(rgba(255,255,255,0), var(--background-color));
+}
+.read-more {
+  display: block;
+  margin: 0.5rem auto 0;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  /* Make the read more toggle more visually distinct */
+  background: var(--primary-color);
+  color: white;
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+}
+.read-more:hover {
+  /* Invert colours when hovering to give the button a tactile feel */
+  background: var(--secondary-color);
+  color: var(--heading-color);
+}
+
+/* Wrap each detail card and its read‑more button so they remain vertically
+   aligned within the grid. The wrapper uses a column layout to stack
+   the card and button together. */
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Hero background thumbnail shown in the gallery under the couple photos */
+.gallery-grid img.hero-thumb {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Floral border styling for detail cards */
+#details .card {
+  /* Preserve existing styles */
+  position: relative;
+  border: 16px solid transparent;
+  border-image-source: url('images/floral-border.png');
+  border-image-slice: 200;
+  border-image-repeat: round;
+}
+
+/* Increase visibility and prominence of the persistent exit button shown in the game overlay */
+.exit-overlay-btn {
+  font-size: 1.2rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background: #e53e3e;
+  color: #fff;
+  box-shadow: var(--shadow);
+  /* Position towards the top centre for better visibility */
+  top: 1rem;
+  right: 1rem;
+}
+
+
+/* Timeline */
+.timeline {
+  position: relative;
+  margin-left: 2rem;
+  padding-left: 2rem;
+  border-left: 2px solid var(--accent-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.2rem;
+  top: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--accent-color);
+  border-radius: 50%;
+}
+
+.timeline-time {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: var(--primary-color);
+}
+
+.timeline-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.timeline-chip {
+  display: inline-block;
+  margin-top: 0.25rem;
+  background: var(--secondary-color);
+  color: var(--heading-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+/* RSVP form */
+.rsvp-form {
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Decorative card wrapper around the RSVP form. This gives the form
+   a refined, invitation-like appearance reminiscent of printed
+   wedding stationery. */
+.rsvp-card {
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  padding: 2.5rem;
+  border: 6px double var(--secondary-color);
+  border-radius: 1.5rem;
+  /* Use a bespoke watercolor floral background for a more personalised wedding feel. The
+     floral image sits beneath a soft gradient to ensure text remains readable. */
+  background-image: url('images/rsvp_border_compressed.jpg'), linear-gradient(135deg, #fffdfd, #f9f4f2);
+  background-size: cover, cover;
+  background-position: center, center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* Remove the glass effect and extra padding inside the RSVP form when
+   it sits within our decorative card. The form will inherit the
+   card’s background and border so it feels integrated. */
+.rsvp-card .rsvp-form {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 0;
+}
+
+/* Image header at the top of the RSVP card. It spans the full width of the card and
+   scales proportionally. We add some margin underneath so the form fields don’t
+   butt up against the artwork. */
+.rsvp-card .rsvp-header {
+  width: 100%;
+  /* Crop the decorative header so only the top floral portion is visible and the
+     large blank area beneath is removed. We fix a height and use object-fit
+     cover with object-position top to show the flowers while trimming the
+     excess. */
+  /* Increase the height so the names, rings and cross in the custom artwork are visible */
+  height: 240px;
+  display: block;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Informational box within the RSVP card that provides shuttle instructions and a map. */
+.shuttle-info-box {
+  /* Reduce top margin so the box doesn’t crowd the RSVP form */
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px dashed var(--secondary-color);
+  border-radius: 0.75rem;
+  background: #fdf6f6;
+  text-align: left;
+}
+
+.shuttle-info-box h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+/* Style the shuttle map image within the shuttle info box. */
+.shuttle-info-box .shuttle-map {
+  width: 100%;
+  /* Limit the height so the decorative map doesn’t dominate the card */
+  height: 180px !important;
+  max-height: 180px;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Admin RSVP entry styling for clarity. Each entry is contained
+   within a card-like box with clearly separated details. */
+.entry-box {
+  background: var(--card-background);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.entry-box h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+.entry-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0;
+}
+.entry-box ul li {
+  margin-bottom: 0.4rem;
+}
+.entry-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.entry-box table th,
+.entry-box table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem;
+  text-align: left;
+}
+.entry-box table th {
+  background: var(--secondary-color);
+  color: var(--text-color);
+}
+
+/*
+ * Collapsible RSVP entry styling in the admin dashboard. Each entry has a
+ * header summarising the group and key details, and a details section that
+ * expands/collapses to show full information. The header itself is clickable
+ * to toggle the collapsed state. When collapsed the arrow rotates and the
+ * details are hidden.
+ */
+.entry-box {
+  background: var(--card-background);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.entry-box .entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+.entry-box .entry-header .group-names {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+.entry-box .entry-header .summary {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  line-height: 1.3;
+}
+.entry-box .entry-header .summary span::before {
+  content: '';
+}
+.entry-box .entry-toggle {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+.entry-box.collapsed .entry-toggle {
+  transform: rotate(-90deg);
+}
+.entry-box .entry-details {
+  margin-top: 0.5rem;
+}
+.entry-box.collapsed .entry-details {
+  display: none;
+}
+
+/* Collapsible entry styles for admin RSVP cards */
+.entry-box {
+  position: relative;
+}
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.entry-toggle {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--primary-color);
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+.entry-box.collapsed .entry-toggle {
+  transform: rotate(-90deg);
+}
+.entry-details {
+  margin-top: 0.5rem;
+}
+.entry-box.collapsed .entry-details {
+  display: none;
+}
+
+/* Style for the new exit button to complement the restart button */
+#exitGameBtn {
+  display: inline-block;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radio-group input {
+  margin-right: 0.3rem;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: #fff;
+}
+
+select[multiple] {
+  height: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Guest row container now stacks child elements to allow per‑guest details */
+.guest-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Top row holds the select and remove button horizontally */
+.guest-row-main {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.guest-row-main select {
+  flex: 1;
+}
+
+/* Hide any remove buttons inside guest row selectors. Public users should not
+   see an option to remove a guest row. Target both specific .remove-btn class
+   and any button within .guest-row-main. */
+.guest-row-main button,
+.guest-row-main button.remove-btn {
+  display: none !important;
+}
+
+/* Per‑guest details container */
+.guest-details {
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.guest-details.hidden {
+  display: none;
+}
+
+/* Inputs inside guest details should expand */
+.guest-details input[type="text"] {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.confirmation {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+}
+
+/* Placeholder boxes for an empty gallery. When there are no images
+   uploaded yet, these boxes provide a visual frame for where photos
+   will appear. They use a dashed border and soft background to hint
+   that content can be added. */
+.gallery-placeholder {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #cbb9ae;
+  border-radius: var(--card-radius);
+  background-color: #f9f5f3;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8a59d;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* -------------------------------------- */
+/* Highlight reel styles */
+/* A simple slideshow of up to four images with a progress bar. */
+.highlight-reel {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  /* 16:9 aspect ratio for landscape orientation. Adjust as needed. */
+  aspect-ratio: 16 / 9;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.highlight-reel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Progress bar below the highlight reel */
+.highlight-progress {
+  width: 100%;
+  height: 4px;
+  background-color: #eee;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0.5rem auto;
+  max-width: 800px;
+}
+.highlight-progress .progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width linear;
+}
+
+/* ----------------------------------------------------------------------- */
+/* Position controls for hero and highlight images
+   When edit mode is active, range sliders appear beneath the hero header
+   and highlight slideshow to allow live adjustment of each image's
+   horizontal and vertical offset.  These controls write back to
+   siteSettings.heroPosition and siteSettings.highlightPositions.  */
+.position-controls {
+  display: none; /* hidden by default; shown in edit mode via JS */
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-color, #333);
+}
+
+/* Container for hero position sliders */
+.hero-position-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: 0.5rem auto;
+}
+
+/* Container for all highlight slide sliders */
+.highlight-position-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: 1rem auto 0;
+}
+
+/* Each group of sliders for an individual highlight image */
+.highlight-position-controls .control-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.position-controls label {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.position-controls input[type="range"] {
+  width: 90px;
+}
+
+/* In edit mode, reveal the position controls.  The JS toggles
+   the edit-mode class on the body, so we can use this to control
+   visibility via CSS only. */
+body.edit-mode .position-controls {
+  display: block;
+}
+
+/* Coming Soon grid styles */
+.coming-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 600px;
+  margin: 1.5rem auto;
+}
+
+.coming-slot {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background: #f9f5f3;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+}
+
+.coming-placeholder {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #cbb9ae;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8a59d;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Admin highlight controls: ensure buttons line up nicely */
+.admin-box .form-group button.btn.danger.small {
+  margin-left: 0.5rem;
+}
+
+/* Game */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#gameCanvas {
+  border: 2px solid var(--primary-color);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  background: #fff;
+}
+
+.game-controls {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Scoreboard overlay for Everest Love Run */
+#scoreBoard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--text-color);
+  text-align: center;
+  z-index: 1000;
+}
+
+/* Style for the overlay exit button shown while the game runs */
+.exit-overlay-btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.3rem;
+  z-index: 1001;
+}
+
+/* Style for the exit button in the scoreboard overlay */
+#exitGameBtn {
+  background: #e53e3e;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  margin-top: 1rem;
+}
+
+#scoreBoard h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+#scoreBoard p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Special styling for prize call‑out on the game scoreboard */
+.prize-info {
+  margin-top: 0.75rem;
+  font-style: italic;
+  color: var(--primary-color);
+}
+
+#restartButton {
+  margin-top: 1rem;
+}
+
+/* Disabled options in guest selection appear faded and cannot be selected */
+select option:disabled {
+  color: #bbb;
+}
+
+/* Admin */
+.admin-login, .admin-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: var(--card-radius);
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  box-shadow: var(--shadow);
+}
+
+/* Admin boxes for clearer organisation */
+.admin-box {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: var(--card-radius);
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  box-shadow: var(--shadow);
+}
+
+/* RSVP entry details inside admin box */
+.entry {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.entry:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.list {
+  list-style: none;
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+
+.list li {
+  margin-bottom: 0.25rem;
+}
+
+.raw {
+  background: #f7f7f7;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow: auto;
+  max-height: 200px;
+  font-family: monospace;
+}
+
+/* Admin boxes for clearer grouping */
+.admin-box {
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--card-radius);
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  box-shadow: var(--shadow);
+}
+.admin-box h3 {
+  margin-top: 0;
+  cursor: pointer;
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+/* Collapsible admin boxes */
+.admin-box h3::after {
+  content: '▼';
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+}
+.admin-box.collapsed h3::after {
+  content: '►';
+}
+.admin-box.collapsed > :not(h3) {
+  display: none;
+}
+.entry-box {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem 0;
+}
+.entry-box:last-child {
+  border-bottom: none;
+}
+.entry-box strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Custom uploaded icons container */
+#customElements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Custom icons/images inserted via admin tools */
+.custom-icon {
+  position: absolute;
+  max-width: 200px;
+  height: auto;
+  cursor: move;
+  pointer-events: auto;
+  z-index: 1001;
+}
+
+/* Highlight editable text in edit mode */
+.edit-mode [contenteditable="true"] {
+  outline: 1px dashed var(--primary-color);
+}
+
+.error {
+  color: #e57373;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero-heading {
+    font-size: 2.2rem;
+  }
+  .hero-names {
+    font-size: 1.5rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .nav .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Hide the game section by default. The game will now be displayed as an overlay triggered from the RSVP form. */
+#game {
+  display: none;
+}
+
+/* Full-screen overlay styling for the game when activated. */
+#game.show {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Prevent body scrolling when the game overlay is displayed */
+.no-scroll {
+  overflow: hidden;
+}
+
+/*
+ * Reduce the amount of blank space above and below the RSVP card.
+ * The default section padding (4rem top and bottom) created a large gap
+ * between the "Kindly reply" subtitle and the top of the invitation card.
+ * By overriding the padding for the RSVP section and shortening the
+ * subtitle margin, we keep the floral header closely aligned with the
+ * surrounding elements. These adjustments only apply to the RSVP section
+ * so that other sections retain their original spacing.
+ */
+#rsvp.section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+#rsvp .section-subtitle {
+  margin-bottom: 1rem;
+}
+
+/* RSVP confirmation popup styles */
+.rsvp-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--primary-color);
+  padding: 1.5rem 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  z-index: 10000;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Styles for RSVP popup content */
+.rsvp-popup h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+.rsvp-popup p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+/* Confetti pieces used in RSVP confirmation */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-color);
+  opacity: 0.8;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confetti-fall 3s linear forwards;
+}
+
+/* ====================================================================
+   Premium enhancements
+   These styles support the extra polish added to the invite such as the
+   progress bar, mobile navigation toggle, reveal animations, the story
+   section, guestbook and gallery lightbox.
+*/
+
+/* Scroll progress bar */
+#progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background: var(--primary-color);
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+
+/* Countdown timer appearance within hero */
+.countdown {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+/* Reveal animation defaults.  Sections start slightly translated and faded
+   out; the .animate class restores them to their normal position and
+   opacity.  The hero is excluded because it lacks the .section class. */
+.section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+.section.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile navigation.  The hamburger is hidden on larger screens.  When
+   displayed it stacks three horizontal bars. */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  gap: 6px;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--heading-color);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive behaviour for nav links */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--nav-bg-color);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+/* Story section layout */
+.story-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.story-text {
+  flex: 1 1 300px;
+}
+.story-image {
+  flex: 1 1 300px;
+  text-align: center;
+}
+.story-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+}
+
+/* Guestbook styles */
+.guestbook-form {
+  margin-bottom: 1rem;
+}
+.guestbook-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.guestbook-entry {
+  background: var(--card-background);
+  backdrop-filter: blur(var(--card-blur));
+  padding: 0.75rem 1rem;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 0.5rem;
+}
+
+/* Lightbox overlay */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.lightbox.hidden {
+  display: none;
+}
+.lightbox img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+.lightbox-nav,
+.lightbox-close {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.lightbox-close {
+  top: 1rem;
+  right: 1rem;
+}
+.lightbox-prev {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lightbox-next {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lightbox-nav:hover,
+.lightbox-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+/* === Program Editor Styles === */
+/* Each editable program event row within the admin panel */
+.program-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color: #fdfcfa;
+}
+.program-row input[type="text"],
+.program-row textarea {
+  flex: 1 1 150px;
+  min-width: 120px;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.program-row textarea {
+  resize: vertical;
+}
+/* Container holding the move/remove buttons */
+.program-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+
+/* Content editor rows in the admin panel. Each row comprises
+   a label and an input or textarea. */
+.content-row {
+  margin-bottom: 0.75rem;
+}
+.content-row label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+.content-row input,
+.content-row textarea {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.content-row textarea {
+  resize: vertical;
+}
+.program-controls .btn {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1;
+}

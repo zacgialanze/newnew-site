@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Zac and Elena Wedding//EN
+BEGIN:VEVENT
+UID:zac-elena-wedding@example.com
+DTSTAMP:20250917T000000Z
+SUMMARY:Zac & Elena Wedding
+DESCRIPTION:Ceremony and Reception for Zac and Elena's wedding
+LOCATION:Greenfield Beach, Jervis Bay, NSW, Australia; Figbird Cottage, Terara, NSW, Australia
+DTSTART:20260220T233000Z
+DTEND:20260221T140000Z
+END:VEVENT
+END:VCALENDAR

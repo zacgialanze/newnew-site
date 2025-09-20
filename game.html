@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Everest Love Run</title>
+  <!-- Reuse the site styling so the game page matches the wedding invite aesthetics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Simple navigation replicating the invite header so guests can return easily -->
+  <header class="nav">
+    <nav class="container">
+      <h1 class="logo"><a href="index.html">Zac &amp; Elena</a></h1>
+      <ul class="nav-links">
+        <li><a href="index.html#program">Program</a></li>
+        <li><a href="index.html#details">Details</a></li>
+        <li><a href="index.html#rsvp">RSVP</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="game.html" aria-current="page">Game</a></li>
+        <li><a href="index.html#admin">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- Main game section -->
+  <!-- Add the `animate` class so the game section is visible. The index page uses
+       an IntersectionObserver to add this class when sections come into view, but
+       the game page doesn’t load that script. Without the class the section
+       remains transparent due to our fade‑in styles. -->
+  <section class="section animate">
+    <div class="container">
+      <h2 class="section-title">Everest Love Run: Transit Edition</h2>
+      <p class="section-subtitle">
+        Help our yellow Ford&nbsp;Transit navigate Mt&nbsp;Everest, dodge 💔 hearts and then fly over the UK &amp; Australia!
+      </p>
+      <div class="game-container glass">
+        <!-- Player name input allows guests to record their scores under a name (optional). -->
+        <div class="form-group" style="width:100%;">
+          <label for="playerName">Enter your name(s) (optional):</label>
+          <input type="text" id="playerName" placeholder="Your name(s)" />
+        </div>
+        <!-- Game canvas -->
+        <canvas id="gameCanvas" width="360" height="640"></canvas>
+        <!-- Scoreboard overlay appears when the game ends -->
+        <div id="scoreBoard" style="display:none;">
+          <h1>Everest Love Run</h1>
+          <p id="finalMessage"></p>
+          <p id="finalScore"></p>
+          <!-- High‑score list can be shown below the final score -->
+          <ul id="highScoresDisplay" class="list" style="list-style:none; padding:0; margin:0.5rem 0;"></ul>
+          <!-- Buttons to play again or return to the invite -->
+          <button id="restartButton" class="btn primary">Play Again</button>
+          <button id="backBtn" class="btn secondary" style="margin-top:0.5rem;">Back to Invite</button>
+        </div>
+        <div class="game-controls">
+          <p>Use the arrow keys to move.</p>
+          <button id="startGameBtn" class="btn primary">Start Game</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Game logic -->
+  <script src="everest-love-run.js"></script>
+  <script>
+    // Keep track of the current player's name between runs
+    let currentPlayerName = '';
+    // Select DOM elements once
+    const startBtn = document.getElementById('startGameBtn');
+    const restartBtn = document.getElementById('restartButton');
+    const backBtn = document.getElementById('backBtn');
+    const scoreBoard = document.getElementById('scoreBoard');
+    const finalMessageEl = document.getElementById('finalMessage');
+    const finalScoreEl = document.getElementById('finalScore');
+    const highScoresDisplay = document.getElementById('highScoresDisplay');
+    const playerNameInput = document.getElementById('playerName');
+
+    // Persist and retrieve high scores in localStorage. Only keep the top 10 entries sorted by score.
+    function saveHighScore(names, score) {
+      let highScores = [];
+      try {
+        highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+      } catch (e) {
+        highScores = [];
+      }
+      highScores.push({ names, score, timestamp: new Date().toISOString() });
+      highScores.sort((a, b) => b.score - a.score);
+      highScores = highScores.slice(0, 10);
+      localStorage.setItem('highScores', JSON.stringify(highScores));
+      return highScores;
+    }
+
+    // Render the high scores list on the scoreboard overlay
+    function renderHighScores() {
+      let scores = [];
+      try {
+        scores = JSON.parse(localStorage.getItem('highScores')) || [];
+      } catch (e) {
+        scores = [];
+      }
+      // Clear existing list
+      highScoresDisplay.innerHTML = '';
+      if (scores.length === 0) {
+        return;
+      }
+      scores.forEach((entry, idx) => {
+        const li = document.createElement('li');
+        li.textContent = `${idx + 1}. ${entry.names} – ${entry.score}`;
+        highScoresDisplay.appendChild(li);
+      });
+    }
+
+    // Start button: capture name and begin the game
+    if (startBtn) {
+      startBtn.addEventListener('click', () => {
+        currentPlayerName = playerNameInput.value.trim();
+        startBtn.disabled = true;
+        playerNameInput.disabled = true;
+        if (window.startEverestLoveRun) {
+          window.startEverestLoveRun();
+        }
+      });
+    }
+
+    // Restart button hides the scoreboard and re‑enables the start button
+    if (restartBtn) {
+      restartBtn.addEventListener('click', () => {
+        scoreBoard.style.display = 'none';
+        startBtn.disabled = false;
+        playerNameInput.disabled = false;
+      });
+    }
+    // Back button returns to the main invite
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+    }
+
+    // Callback invoked by the Everest Love Run game when it ends. Displays the final
+    // score, records high scores and shows the scoreboard overlay.
+    window.afterEverestGame = function(finalScore) {
+      const nameToSave = currentPlayerName || 'Guest';
+      const updatedScores = saveHighScore(nameToSave, Math.max(0, Math.floor(finalScore)));
+      // Populate scoreboard
+      finalMessageEl.textContent = nameToSave ? `Great work, ${nameToSave}!` : 'Great work!';
+      finalScoreEl.textContent = `Score: ${Math.max(0, Math.floor(finalScore))}`;
+      renderHighScores();
+      scoreBoard.style.display = 'flex';
+    };
+  </script>
+</body>
+</html>
