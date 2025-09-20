@@ -2366,12 +2366,20 @@ function saveSiteSettings() {
     });
   }
   try {
-    localStorage.setItem('siteSettings', JSON.stringify(siteSettings));
+    // Before writing to localStorage, create a shallow copy and remove large media
+    // data if present. Base64‑encoded audio can easily exceed the 5MB quota. By
+    // omitting it from the local copy, we avoid quota errors while still
+    // persisting the full settings to GitHub.
+    const localCopy = JSON.parse(JSON.stringify(siteSettings));
+    if (localCopy.music && localCopy.music.length > 500000) {
+      delete localCopy.music;
+    }
+    localStorage.setItem('siteSettings', JSON.stringify(localCopy));
   } catch (e) {
-    // If storage quota is exceeded (e.g. due to large audio/image), notify the user and abort saving
-    console.error('Failed to save site settings:', e);
-    alert('Your changes could not be saved because they exceed the browser\'s storage limit. Please remove large images or audio files and try again.');
-    return;
+    // If storage quota is exceeded (e.g. due to multiple large images), notify the user.
+    console.error('Failed to save site settings to local storage:', e);
+    alert('Your changes were saved to the public site but could not be stored locally due to browser storage limits. Consider removing large images or audio files.');
+    // Continue to upload settings even if local persistence fails
   }
   // Persist settings to the repository using the GitHub API.  This will
   // update the siteSettings.json file so that changes made in the admin
