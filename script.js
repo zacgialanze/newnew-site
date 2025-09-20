@@ -2544,8 +2544,20 @@ document.addEventListener('DOMContentLoaded', () => {
           'images/1000017460.jpg'
         ];
       }
+      // Apply colours, hero, highlights and other design settings
       applySiteSettings();
-      // Load timeline
+      // If a timelineEvents array exists in the loaded siteSettings, use it to
+      // replace the default timeline defined at the top of the script. This
+      // ensures that program updates saved via the admin panel persist for all
+      // visitors. Otherwise, fall back to whatever is already in timelineEvents.
+      try {
+        if (siteSettings && Array.isArray(siteSettings.timelineEvents) && siteSettings.timelineEvents.length) {
+          timelineEvents = siteSettings.timelineEvents;
+        }
+      } catch (err) {
+        console.warn('Error applying timeline events from siteSettings', err);
+      }
+      // Load timeline using the (possibly updated) timelineEvents array
       loadTimeline();
       // Initialize guest list container with one row
       const guestContainer = document.getElementById('guestListContainer');
