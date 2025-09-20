@@ -2359,6 +2359,16 @@ function saveSiteSettings() {
     alert('Your changes could not be saved because they exceed the browser\'s storage limit. Please remove large images or audio files and try again.');
     return;
   }
+  // Persist settings to the repository using the GitHub API.  This will
+  // update the siteSettings.json file so that changes made in the admin
+  // dashboard are reflected for all visitors once GitHub Pages rebuilds.
+  // If no GitHub token has been configured, the upload will simply be
+  // skipped.
+  try {
+    uploadSiteSettings();
+  } catch (err) {
+    console.error('Failed to upload site settings:', err);
+  }
 }
 
 /**
@@ -2383,6 +2393,64 @@ function replaceGalleryImages() {
       img.src = uri;
     }
   });
+}
+
+/**
+ * Upload the current siteSettings object to GitHub as siteSettings.json.  This
+ * uses the GitHub REST API to update a file in the repository.  A
+ * personal access token with `repo` scope must be stored in
+ * localStorage under the key `githubToken` for this to succeed.  If
+ * no token is present, the function silently returns.  Errors are
+ * logged to the console but do not interrupt the page flow.
+ */
+async function uploadSiteSettings() {
+  const token = localStorage.getItem('githubToken');
+  if (!token) {
+    console.warn('GitHub token not found; skipping upload of site settings');
+    return;
+  }
+  const owner = 'zacgialanze';
+  const repo = 'newnew-site';
+  const path = 'siteSettings.json';
+  try {
+    // Retrieve the current file SHA so we can update it. Without the SHA,
+    // GitHub will attempt to create a new file rather than updating.
+    const getResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+      headers: {
+        'Authorization': 'token ' + token,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if (!getResp.ok) {
+      console.error('Failed to fetch current site settings file:', getResp.status);
+      return;
+    }
+    const getData = await getResp.json();
+    const sha = getData.sha;
+    // Encode the updated settings as a base64 string
+    const json = JSON.stringify(siteSettings);
+    // Convert UTF‑8 string to base64. Use unescape/encodeURIComponent to
+    // handle non‑ASCII characters correctly.
+    const content = btoa(unescape(encodeURIComponent(json)));
+    // Prepare payload for updating the file
+    const putResp = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'token ' + token,
+        'Accept': 'application/vnd.github+json'
+      },
+      body: JSON.stringify({
+        message: 'Update site settings via admin panel',
+        content: content,
+        sha: sha
+      })
+    });
+    if (!putResp.ok) {
+      console.error('Failed to upload site settings:', putResp.status, await putResp.text());
+    }
+  } catch (err) {
+    console.error('Error uploading site settings to GitHub:', err);
+  }
 }
 
 /**
@@ -2420,34 +2488,51 @@ function unescapeHtml(str) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-  // Load site settings
+  // Load site settings from the browser's localStorage. This provides
+  // backwards compatibility if the remote settings file cannot be loaded.
   try {
     siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
   } catch (e) {
     siteSettings = {};
   }
-  // If highlights have not been configured yet, populate default highlight
-  // images from the repository.  Without this, the highlight reel remains
-  // blank until an admin uploads photos via the dashboard.  We fall back to
-  // relative paths which GitHub Pages will resolve at runtime.
-  if (!Array.isArray(siteSettings.highlights) || siteSettings.highlights.length === 0) {
-    siteSettings.highlights = [
-      'images/1000017454.jpg',
-      'images/1000017456.jpg',
-      'images/1000017457.jpg',
-      'images/1000017460.jpg'
-    ];
-  }
-  applySiteSettings();
-  // Load timeline
-  loadTimeline();
-  // Initialize guest list container with one row
-  const guestContainer = document.getElementById('guestListContainer');
-  guestContainer.appendChild(createGuestRow());
-  // Apply guest details visibility based on current number of rows
-  updateGuestDetailsVisibility();
-  // Initialise select option availability (disable responded and already selected names)
-  updateSelectOptions();
+  // Attempt to fetch a shared siteSettings.json file from the repository. If
+  // present, this file contains the persisted settings that should apply
+  // across devices. Append a cache‑busting query string to ensure the
+  // browser doesn't serve a stale version from the CDN. If the fetch fails,
+  // we simply fall back to localStorage defaults defined above.
+  fetch('siteSettings.json?v=' + Date.now())
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      if (data) {
+        siteSettings = data;
+      }
+    })
+    .catch(() => {
+      // ignore network errors and continue with local settings
+    })
+    .finally(() => {
+      // If highlights have not been configured yet, populate default
+      // highlight images from the repository. Without this, the highlight
+      // reel remains blank until an admin uploads photos via the dashboard.
+      if (!Array.isArray(siteSettings.highlights) || siteSettings.highlights.length === 0) {
+        siteSettings.highlights = [
+          'images/1000017454.jpg',
+          'images/1000017456.jpg',
+          'images/1000017457.jpg',
+          'images/1000017460.jpg'
+        ];
+      }
+      applySiteSettings();
+      // Load timeline
+      loadTimeline();
+      // Initialize guest list container with one row
+      const guestContainer = document.getElementById('guestListContainer');
+      guestContainer.appendChild(createGuestRow());
+      // Apply guest details visibility based on current number of rows
+      updateGuestDetailsVisibility();
+      // Initialise select option availability (disable responded and already selected names)
+      updateSelectOptions();
+    });
   // Event listeners
   document.getElementById('addGuestBtn').addEventListener('click', handleAddGuest);
   document.getElementsByName('bringGuest').forEach(r => {
