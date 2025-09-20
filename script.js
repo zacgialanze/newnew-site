@@ -2129,10 +2129,13 @@ function applySiteSettings() {
       if (!el) return;
       const textVal = siteSettings.textContents[key];
       if (el.tagName === 'P' || el.tagName === 'DIV') {
-        // Escape special characters then convert newlines to <br>
-        el.innerHTML = escapeHtml(textVal).replace(/\n/g, '<br>');
+        // Decode previously escaped entities and insert raw HTML. This allows
+        // tags such as <strong>, <em> and <a> to render properly.
+        // Newlines are converted to <br> elements.
+        const unescaped = unescapeHtml(textVal);
+        el.innerHTML = unescaped.replace(/\n/g, '<br>');
       } else {
-        el.textContent = textVal;
+        el.textContent = unescapeHtml(textVal);
       }
     });
   }
@@ -2398,6 +2401,23 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
+// ---------------------------------------------------------------------------
+// Decode HTML entities back into their literal form.
+//
+// When restoring text content into editable paragraphs/divs we want to
+// render any intentionally included markup (for example <strong> or <a>)
+// rather than displaying the encoded sequences (&lt;strong&gt;).  Without
+// decoding, repeatedly saving via the admin editor would double‑encode
+// ampersands resulting in text like `Zac &amp;amp; Elena` appearing on
+// the final page.  This helper reverses the escaping performed by
+// escapeHtml().
+function unescapeHtml(str) {
+  return String(str)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
   // Load site settings
@@ -2405,6 +2425,18 @@ document.addEventListener('DOMContentLoaded', () => {
     siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
   } catch (e) {
     siteSettings = {};
+  }
+  // If highlights have not been configured yet, populate default highlight
+  // images from the repository.  Without this, the highlight reel remains
+  // blank until an admin uploads photos via the dashboard.  We fall back to
+  // relative paths which GitHub Pages will resolve at runtime.
+  if (!Array.isArray(siteSettings.highlights) || siteSettings.highlights.length === 0) {
+    siteSettings.highlights = [
+      'images/1000017454.jpg',
+      'images/1000017456.jpg',
+      'images/1000017457.jpg',
+      'images/1000017460.jpg'
+    ];
   }
   applySiteSettings();
   // Load timeline
