@@ -2709,9 +2709,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Preview the audio using a data URL. This does not persist the file.
       const reader = new FileReader();
       reader.onload = function (ev) {
+        const dataUrl = ev.target.result;
         const audio = document.getElementById('bgMusic');
         if (audio) {
-          audio.src = ev.target.result;
+          audio.src = dataUrl;
           audio.volume = audio.volume || 0.5;
           try {
             audio.play();
@@ -2719,16 +2720,19 @@ document.addEventListener('DOMContentLoaded', () => {
             /* autoplay blocked */
           }
         }
+        // Store the music data URL in siteSettings so it can be saved to GitHub
+        if (typeof siteSettings === 'object') {
+          siteSettings.music = dataUrl;
+          // Ensure we do not attempt to load from IndexedDB on other devices
+          delete siteSettings.musicStored;
+        }
       };
       reader.readAsDataURL(file);
-      // Persist the raw file (blob) in IndexedDB for long-term storage
+      // Persist the raw file (blob) in IndexedDB for offline playback. This is optional
+      // and used to reduce JSON size when saving to GitHub. The data URL is stored
+      // in siteSettings.music for cross‑device synchronisation.
       saveMusicToDB(file, function (ok) {
         if (ok) {
-          if (typeof siteSettings === 'object') {
-            siteSettings.musicStored = true;
-            // We no longer store the entire audio in localStorage. Clear the previous small music field
-            if (siteSettings.music) delete siteSettings.music;
-          }
           alert('Music uploaded and will be saved when you click Save All.');
         } else {
           alert('Failed to save music. Your browser may not support offline storage.');
@@ -3999,6 +4003,16 @@ function saveProgramEvents(silent = false) {
   timelineEvents = newEvents;
   // Persist in localStorage
   localStorage.setItem('timelineEvents', JSON.stringify(timelineEvents));
+  // Persist timeline events to siteSettings so that program updates
+  // can be synchronised across devices via GitHub.  This array will be
+  // saved to siteSettings.json when Save All is clicked.
+  try {
+    if (typeof siteSettings === 'object') {
+      siteSettings.timelineEvents = JSON.parse(JSON.stringify(timelineEvents));
+    }
+  } catch (err) {
+    console.warn('Failed to clone timelineEvents for siteSettings', err);
+  }
   // Update the displayed timeline
   loadTimeline();
   // Only show an alert if not saving silently (e.g. via Save All)
@@ -4129,18 +4143,54 @@ function saveAllChanges() {
   if (typeof applyComingSoonSettings === 'function') {
     applyComingSoonSettings();
   }
+  // Prepare a summary of the categories that were updated. This gives the
+  // admin clear feedback on what was saved and will be published. We check
+  // for the presence of key properties on siteSettings and compile a
+  // human‑readable list. This does not attempt a diff against previous
+  // values, but it provides an overview of what types of content are
+  // currently stored.
+  const summary = [];
+  try {
+    if (siteSettings.textContents && Object.keys(siteSettings.textContents).length) {
+      summary.push('text content');
+    }
+    if (Array.isArray(siteSettings.timelineEvents) && siteSettings.timelineEvents.length) {
+      summary.push('program timeline');
+    }
+    if (siteSettings.music) {
+      summary.push('background music');
+    }
+    if (siteSettings.heroBg) {
+      summary.push('hero image');
+    }
+    if (Array.isArray(siteSettings.highlights) && siteSettings.highlights.length) {
+      summary.push('highlights');
+    }
+    if (Array.isArray(siteSettings.gallery) && siteSettings.gallery.length) {
+      summary.push('gallery images');
+    }
+    if (siteSettings.headingColor || siteSettings.textColor || siteSettings.navBgColor) {
+      summary.push('design colours');
+    }
+    if (Array.isArray(siteSettings.customIcons) && siteSettings.customIcons.length) {
+      summary.push('custom icons');
+    }
+  } catch (err) {
+    console.warn('Failed to build summary of changes:', err);
+  }
+  const summaryMsg = summary.length ? ('Changes saved: ' + summary.join(', ') + '.\nYour updates will appear on the public site after a short delay.') : 'All changes saved successfully.';
   // Display a toast message below the Save All button if available. This provides visual feedback
   // without requiring the user to dismiss a browser alert. If no status element exists, fall back
   // to a native alert.
   const statusEl = document.getElementById('saveAllStatus');
   if (statusEl) {
-    statusEl.textContent = 'All changes saved successfully.';
+    statusEl.textContent = summaryMsg;
     statusEl.classList.remove('hidden');
     // Hide the status after a short delay
     setTimeout(() => {
       statusEl.classList.add('hidden');
-    }, 3000);
+    }, 6000);
   } else {
-    alert('All changes saved successfully.');
+    alert(summaryMsg);
   }
 }
