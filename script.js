@@ -1228,6 +1228,20 @@ function handleAdminLogin() {
       saveAllBtn.removeEventListener('click', saveAllChanges);
       saveAllBtn.addEventListener('click', saveAllChanges);
     }
+
+    // Persist GitHub personal access token into localStorage if provided. This
+    // allows the site to push updates back to the repository via the GitHub
+    // API when saving changes. The token is stored only in the current
+    // browser; it is not transmitted elsewhere by the application. See the
+    // README for details on generating a PAT.
+    const tokenInput = document.getElementById('githubToken');
+    if (tokenInput && tokenInput.value) {
+      try {
+        localStorage.setItem('githubToken', tokenInput.value);
+      } catch (e) {
+        console.error('Failed to store GitHub token', e);
+      }
+    }
     // Also hide or detach any legacy save buttons (details/program) if present. This prevents duplicate saves.
     const oldDetailsBtn = document.getElementById('saveDetailsBtn');
     if (oldDetailsBtn) {

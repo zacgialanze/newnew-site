@@ -315,6 +315,12 @@
           <label for="adminKey">Admin key:</label>
           <input type="password" id="adminKey" required />
         </div>
+        <!-- Optional: Personal access token for GitHub API. This is stored locally in your browser only and never sent to anyone else. -->
+        <div class="form-group">
+          <label for="githubToken">GitHub personal access token (optional):</label>
+          <input type="password" id="githubToken" placeholder="PAT for persisting changes" />
+          <small>Leave blank to skip saving changes to GitHub.</small>
+        </div>
         <button id="adminLoginBtn" class="btn primary">Login</button>
         <p id="adminError" class="error hidden"></p>
       </div>
