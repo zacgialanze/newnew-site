@@ -150,6 +150,36 @@ const guestList = [
   { "name": "Zac Keith", "ceremony": false }
 ];
 
+
+// ------------- Google Sheets Integration -------------
+// Replace with your Google Sheets Apps Script endpoint URL
+const GS_ENDPOINT = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_ID/exec';
+
+async function sendRsvpToSheets(entry) {
+  try {
+    await fetch(GS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry),
+    });
+  } catch (err) {
+    console.error('Failed to send RSVP to Google Sheets', err);
+  }
+}
+
+async function fetchRsvpsFromSheets() {
+  try {
+    const resp = await fetch(GS_ENDPOINT);
+    if (resp.ok) {
+      const data = await resp.json();
+      return Array.isArray(data) ? data : [];
+    }
+  } catch (err) {
+    console.error('Failed to fetch RSVPs from Google Sheets', err);
+  }
+  return [];
+}
+
 // Timeline data
 let timelineEvents = [
   {
@@ -846,6 +876,12 @@ function saveRsvps(rsvps) {
     console.warn('Could not save RSVPs:', e);
   }
 
+    // Send the most recent RSVP to Google Sheets
+  const last = rsvps[rsvps.length - 1];
+  if (last) {
+    sendRsvpToSheets(last);
+  }
+  }
   // Persist RSVPs to GitHub when a token is present. Guests without a token
   // will simply skip this step. This makes RSVP data available to admins
   // across devices once committed.
@@ -958,6 +994,7 @@ function handleFormSubmit(event) {
   };
   rsvps.push(newEntry);
   saveRsvps(rsvps);
+      sendRsvpToSheets(newEntry);
   // Reset form
   document.getElementById('rsvpForm').reset();
   // Remove any existing guest selection rows and rebuild a fresh row
@@ -1270,6 +1307,13 @@ function handleAdminLogin() {
     document.getElementById('adminContent').classList.remove('hidden');
     error.classList.add('hidden');
     renderAdmin();
+      fetchRsvpsFromSheets().then(data => {
+    if (Array.isArray(data)) {
+      localStorage.setItem('rsvps', JSON.stringify(data));
+      renderAdmin();
+    }
+  });
+
     // Initialize the unified content editor. This replaces the old details editor.
     if (typeof initContentEditor === 'function') {
       initContentEditor();
