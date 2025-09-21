@@ -1,5 +1,5 @@
 // Guest list with ceremony flag
-const guestList = [
+const guestList = [zz
   { "name": "Aaron Electrician", "ceremony": false },
   { "name": "Abbie Filmer", "ceremony": true },
   { "name": "Abish Khatri", "ceremony": true },
