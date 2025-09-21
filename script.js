@@ -153,7 +153,7 @@ const guestList = [
 
 // ------------- Google Sheets Integration -------------
 // Replace with your Google Sheets Apps Script endpoint URL
-const GS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzxUqffOSIM_xRWbeL5NYlO_MqgzfVkJ0Jh5zow4wzu9Znj12yTYjl_NFBbDD34T2XG/exec';
+    const GS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzaIX7mykTqWOGqAlzeqhoJFEppmdwR_MTvgOICh0mePYXRbAVJrdZU9-E4vF7okOo/exec';
 
 async function sendRsvpToSheets(entry) {
   try {
