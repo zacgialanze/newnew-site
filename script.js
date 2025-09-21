@@ -1400,7 +1400,7 @@ function exportCsv() {
     alert('No RSVPs to export');
     return;
   }
-  const headers = ['Names','Attendance','BringGuest','Shuttle1','LateShuttle','Dropoff','Song','Message','Timestamp'];
+   const headers = ['Names','Attendance','BringGuest','Shuttle1','LateShuttle','Dropoff','Song','Message','Timestamp'];
   const rows = rsvps.map(entry => {
     return [
       entry.names.join(' & '),
