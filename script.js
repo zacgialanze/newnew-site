@@ -875,15 +875,13 @@ function saveRsvps(rsvps) {
     console.warn('Could not save RSVPs:', e);
   }
 
-    // Send the most recent RSVP to Google Sheets
+  // Send the most recent RSVP to Google Sheets
   const last = rsvps[rsvps.length - 1];
   if (last) {
     sendRsvpToSheets(last);
   }
-  }
-  // Persist RSVPs to GitHub when a token is present. Guests without a token
-  // will simply skip this step. This makes RSVP data available to admins
-  // across devices once committed.
+
+  // Persist RSVPs to GitHub when a token is present
   try {
     uploadRsvps();
   } catch (err) {
@@ -901,8 +899,8 @@ function saveRsvps(rsvps) {
     try {
       var s = document.createElement('script');
       s.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js';
-      s.onload = function() {
-        try { window.confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } }); } catch(e){}
+      s.onload = function () {
+        try { window.confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } }); } catch (e) {}
       };
       document.head.appendChild(s);
     } catch (e) {
@@ -910,6 +908,7 @@ function saveRsvps(rsvps) {
     }
   })();
 }
+
 
 
 function handleFormSubmit(event) {
