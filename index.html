@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zac & Elena Wedding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Use Google Fonts for elegant typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <!-- Sticky navigation -->
+  <header id="topNav" class="nav">
+    <nav class="container">
+      <h1 class="logo"><a href="#hero">Zac & Elena</a></h1>
+      <ul class="nav-links">
+        <li><a href="#program">Program</a></li>
+        <li><a href="#details">Details</a></li>
+        <li><a href="#rsvp">RSVP</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <!-- Visible link to the separate game page. Opens the Everest Love Run game on its own page rather than in an overlay. -->
+        <li><a href="game.html">Game</a></li>
+        <li><a href="#admin">Admin</a></li>
+      </ul>
+
+        <!-- Mobile navigation toggle (hamburger).  Hidden on larger screens and used to
+             collapse/expand the navigation links on small devices.  Three bars
+             represent the classic hamburger icon.  The aria-label improves
+             accessibility for screen readers. -->
+        <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+    </nav>
+  </header>
+
+  <!-- Scroll progress bar.  As you scroll down the page this bar fills to
+       indicate how much of the invite has been viewed.  It sits fixed at the
+       very top of the viewport and uses the primary colour from the theme. -->
+  <div id="progressBar"></div>
+
+  <!-- Hero section -->
+  <section id="hero" class="hero">
+    <div class="hero-overlay"></div>
+    <img class="hero-bg" src="images/1000017452.jpg" alt="Zac and Elena" />
+    <div class="hero-content">
+      <h2 class="hero-heading" data-edit-id="hero-heading">We Do</h2>
+      <p class="hero-names" data-edit-id="hero-names">Zac & Elena</p>
+      <p class="hero-date" data-edit-id="hero-date">Saturday • 21 February 2026</p>
+      <!-- Countdown timer to the wedding date.  It will dynamically update to
+           show the days, hours, minutes and seconds remaining until the big
+           celebration.  The script.js file contains the logic to populate
+           this element on page load. -->
+      <div id="countdown" class="countdown"></div>
+      <div class="hero-buttons">
+        <a href="#program" class="btn pill">View Program</a>
+        <a href="#rsvp" class="btn pill">RSVP Now</a>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- Container for custom uploaded icons/elements -->
+  <div id="customElements"></div>
+
+  <!-- Our Story section.  A narrative about the couple's journey with a
+       picturesque photo alongside the text.  This section uses a two‑column
+       layout on larger screens and stacks on smaller devices.  The
+       data-edit-id attributes allow quick editing in admin edit mode. -->
+  <section id="story" class="section">
+    <div class="container story-container">
+      <div class="story-text">
+        <h2 class="section-title" data-edit-id="story-title">Our Story</h2>
+        <p class="section-subtitle" data-edit-id="story-subtitle">From chance encounters to forever friends – here’s how our love blossomed.</p>
+        <p data-edit-id="story-body">We first crossed paths on a summer adventure and soon realised our lives were meant to intertwine.  Years of laughter, travel and shared dreams brought us closer together.  From late‑night road trips in a yellow Transit van to climbing real mountains and overcoming figurative ones, our bond has only grown stronger.  We can’t wait to begin the next chapter surrounded by those we love most.</p>
+      </div>
+      <div class="story-image">
+        <img src="images/1000017460.jpg" alt="Our story" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Program section -->
+  <section id="program" class="section">
+    <div class="container">
+      <h2 class="section-title" data-edit-id="program-title">Program</h2>
+      <p class="section-subtitle" data-edit-id="program-subtitle">Join us for our special day – here’s how it unfolds</p>
+      <div class="timeline">
+        <!-- Static timeline items for the wedding program -->
+        <div class="timeline-item">
+          <div class="timeline-time">3:30–4:00 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Shuttle Service</h3>
+            <p class="timeline-desc">Catch the shuttle from Nowra Entertainment Centre to Figbird Cottage. Multiple trips will run during this window.</p>
+            <span class="timeline-chip"><a href="https://goo.gl/maps/EkR95cfJqD4hwm2x7" target="_blank">Map</a></span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">4:00 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Ceremony</h3>
+            <p class="timeline-desc">Join us on the lawn at Figbird Cottage as we exchange vows and begin our new adventure together.</p>
+            <span class="timeline-chip"><a href="https://goo.gl/maps/4iFDU5dXtjr1WGEY7" target="_blank">Figbird Cottage</a></span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">4:45 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Canapés &amp; Drinks</h3>
+            <p class="timeline-desc">Mingle with the newlyweds over light bites and beverages while we take family photos.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">6:00 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Dinner</h3>
+            <p class="timeline-desc">Enjoy a delicious meal and heartfelt toasts in the marquee as we celebrate with loved ones.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">7:15 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Cake &amp; First Dance</h3>
+            <p class="timeline-desc">Gather round as we cut the cake and share our first dance as husband and wife.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">10:00 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Farewell</h3>
+            <p class="timeline-desc">Bid us adieu as we wrap up the celebration. Thank you for making our day so special!</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">11:00 PM</div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">Late‑night Shuttle</h3>
+            <p class="timeline-desc">A shuttle will return guests to Nowra. Please ensure you have selected the late‑night shuttle option on your RSVP if needed.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Add to Calendar link -->
+      <div class="add-calendar" style="text-align:center; margin-top: 1rem;">
+        <a href="event.ics" download class="btn secondary">Add to Calendar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Details section -->
+  <section id="details" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title" data-edit-id="details-title">Details</h2>
+      <div class="card-grid">
+        <div class="card glass">
+          <h3>Dress Attire</h3>
+          <!-- The dress description can be edited via the admin content editor. -->
+          <p data-edit-id="details-dress">
+            <strong>DRESS ATTIRE – NO black dresses or shirts.</strong> Our
+            ceremony and reception are held outdoors on lawn, so stilettos and
+            spiky heels aren’t the best option – choose block heels, wedges or
+            dressy flats instead. Smart, celebratory outfits are encouraged:
+            think garden party meets cocktail, with colours and prints that
+            celebrate the season.
+          </p>
+        </div>
+        <div class="card glass">
+          <h3>Transportation</h3>
+          <!-- The transportation description can be edited via the admin content editor. -->
+          <p data-edit-id="details-transport">
+            Parking at Figbird Cottage is limited and taxis are scarce, so
+            please <strong>car‑pool</strong> where possible. We’ve arranged a
+            <strong>free shuttle bus</strong> making <strong>multiple trips
+            between 3:30&nbsp;PM and 4:00&nbsp;PM</strong> from the
+            <em>Nowra&nbsp;Entertainment Centre</em> to Figbird Cottage. There is
+            plenty of parking at the Entertainment Centre. <br>
+            <br>
+            All guests must leave Figbird by <strong>11:00&nbsp;PM</strong>. If you’d like
+            a lift back into town or to a nearby local address, simply tick the
+            <em>late‑night shuttle</em> option on your RSVP and include your
+            drop‑off street so we can plan routes.
+          </p>
+        </div>
+        <div class="card glass">
+          <h3>Accommodation</h3>
+          <!-- The accommodation description can be edited via the admin content editor. -->
+          <p data-edit-id="details-accom">
+            We haven’t reserved accommodation, so please book early – weekends in
+            the Shoalhaven region fill up fast. Great options in <strong>Nowra</strong>
+            include <a href="https://www.questapartments.com.au/properties/nsw/nowra/quest-nowra/overview" target="_blank">Quest Nowra</a>
+            (around <em>$220/night</em>), <a href="https://www.parkhaven.com.au/" target="_blank">Parkhaven Motel</a>
+            (~<em>$180/night</em>) and <a href="https://www.nightcaphotels.com.au/hotels/nsw/archer" target="_blank">Nightcap at Archer</a>
+            (~<em>$190/night</em>). You’ll also find plenty of charming Airbnbs and holiday cottages in
+            Nowra, Bomaderry and nearby coastal towns like Huskisson, Culburra and Shoalhaven Heads
+            from around <em>$250/night</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP section -->
+  <section id="rsvp" class="section">
+    <div class="container">
+      <h2 class="section-title" data-edit-id="rsvp-title">RSVP</h2>
+      <p class="section-subtitle" data-edit-id="rsvp-subtitle">Kindly reply by 15 January&nbsp;2026</p>
+      <!-- Wrap the RSVP form in a decorative card container to evoke a wedding invitation feel -->
+      <div class="rsvp-card">
+        <!-- Custom RSVP header capturing Zac & Elena's love story (Mt Everest, yellow van, hearts, rings, roses, cross and their names). -->
+        <img src="images/rsvp_header_custom_final.jpg" alt="Custom RSVP header" class="rsvp-header">
+        <form id="rsvpForm" class="rsvp-form glass">
+        <!-- Guest selection list -->
+        <div id="guestListContainer" class="guest-list-container"></div>
+        <button type="button" id="addGuestBtn" class="btn secondary small">+ Add another guest</button>
+        
+        <!-- Attendance question -->
+        <div class="form-group">
+          <label>Will you honour us with your presence on this special day?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="attendance" value="yes" required /> Yes, I’d love to!</label>
+            <label><input type="radio" name="attendance" value="no" /> Sadly, I won’t be able to attend.</label>
+          </div>
+        </div>
+
+        <!-- Bring a guest? -->
+        <div class="form-group">
+          <label>Will you be bringing a guest to share this special moment?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="bringGuest" value="yes" /> Yes, I’ll have someone joining me!</label>
+            <label><input type="radio" name="bringGuest" value="no" checked /> No, I’ll be attending on my own.</label>
+          </div>
+        </div>
+
+        <!-- Shuttle pickup (Reception-only guests) -->
+        <div id="shuttle1Container" class="form-group hidden">
+          <label>Reception-only shuttle pickup (3:30–4:00&nbsp;PM at Nowra Entertainment Centre)</label>
+          <p>This option is only for reception-only guests. Please indicate if you will use this shuttle.</p>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="shuttle1" /> I will use the reception shuttle</label>
+          </div>
+        </div>
+
+        <!-- Late-night shuttle -->
+        <div class="form-group">
+          <label><input type="checkbox" id="lateShuttle" /> I’ll need a late-night shuttle</label>
+          <div id="lateShuttleAddress" class="hidden">
+            <label for="dropoff">Drop-off address (optional)</label>
+            <input type="text" id="dropoff" name="dropoff" placeholder="Enter your address" />
+          </div>
+        </div>
+
+        <!-- Song suggestion -->
+        <div class="form-group">
+          <label for="song">Song suggestion (title &amp; artist)</label>
+          <input type="text" id="song" name="song" placeholder="Optional" />
+        </div>
+
+        <!-- Dietary requirements -->
+        <div class="form-group">
+          <label for="diet">Dietary requirements</label>
+          <input type="text" id="diet" name="diet" placeholder="e.g., vegetarian, allergies (optional)" />
+        </div>
+
+        <!-- Comments -->
+        <div class="form-group">
+          <label for="message">Message to the couple</label>
+          <textarea id="message" name="message" rows="3" placeholder="Optional"></textarea>
+        </div>
+
+        <!-- Shuttle information box -->
+        <div class="shuttle-info-box">
+          <h4>Shuttle Details</h4>
+          <p>If you plan to use the shuttle, please meet at the <strong>Nowra Entertainment Centre</strong> at <strong>3:30&nbsp;PM</strong>. The shuttle will depart promptly after. All guests must leave Figbird by <strong>11:00&nbsp;PM</strong>. If you need a ride into town or to a local address on our free shuttle, please select the late‑night shuttle option in your RSVP.</p>
+          <!-- Decorative map image sized via CSS. Clicking the map opens the shuttle route in Google Maps. -->
+          <a id="shuttleMapLink" href="https://www.google.com/maps/dir/?api=1&origin=Nowra+Entertainment+Centre,+Nowra+NSW&destination=Figbird+Cottage,+Terara+NSW" target="_blank" style="display:block;">
+            <img src="images/shuttle_info_compressed.jpg" alt="Shuttle route information map" class="shuttle-map" style="height: 180px; max-height: 180px; width: 100%; object-fit: contain; object-position: center;">
+          </a>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group">
+          <button type="submit" class="btn primary">Submit RSVP</button>
+        </div>
+        </form>
+      </div>
+      <p id="rsvpConfirmation" class="hidden confirmation"></p>
+      <!-- Popup message for RSVP confirmation and confetti -->
+      <div id="rsvpPopup" class="hidden rsvp-popup"></div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <!-- Highlight Reel section. Four hand‑picked photos autoplay through a simple slideshow. -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <h2 class="section-title">Highlights</h2>
+      <!-- Container for the highlight slideshow. Each img represents a slide. -->
+      <div id="highlightReel" class="highlight-reel">
+        <img class="highlight-slide" data-index="0" src="images/1000017454.jpg" alt="Highlight 1" />
+        <img class="highlight-slide" data-index="1" src="images/1000017456.jpg" alt="Highlight 2" />
+        <img class="highlight-slide" data-index="2" src="images/1000017457.jpg" alt="Highlight 3" />
+        <img class="highlight-slide" data-index="3" src="images/1000017460.jpg" alt="Highlight 4" />
+      </div>
+      <!-- A subtle progress bar below the slideshow showing the current slide position. -->
+      <div id="highlightProgress" class="highlight-progress">
+        <div id="highlightProgressBar" class="progress-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon section. Teases the future guest and professional photos with disabled placeholders. -->
+  <section id="comingSoon" class="section">
+    <div class="container">
+      <h2 class="section-title">Coming Soon...</h2>
+      <p class="section-subtitle">We’ll open this space for your photos and our photographer’s favourites after the day. Check back soon!</p>
+      <div class="coming-grid">
+        <div class="coming-slot"><div class="coming-placeholder"></div></div>
+        <div class="coming-slot"><div class="coming-placeholder"></div></div>
+        <div class="coming-slot"><div class="coming-placeholder"></div></div>
+        <div class="coming-slot"><div class="coming-placeholder"></div></div>
+      </div>
+      <p class="coming-note">Uploads will open after the big day.</p>
+    </div>
+  </section>
+
+
+  <!-- Guestbook section.  Visitors can leave well‑wishes or advice for
+       the newlyweds.  Messages are stored in the browser’s local storage so
+       they persist between visits.  The list of entries appears below the
+       form and is also visible to the admin on the dashboard. -->
+  <section id="guestbook" class="section alt-bg">
+    <div class="container">
+      <h2 class="section-title">Guestbook</h2>
+      <p class="section-subtitle">Leave a message for the happy couple</p>
+      <form id="guestbookForm" class="guestbook-form glass">
+        <div class="form-group">
+          <label for="guestbookName">Your name</label>
+          <input type="text" id="guestbookName" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="guestbookMessage">Message</label>
+          <textarea id="guestbookMessage" rows="3" placeholder="Your message" required></textarea>
+        </div>
+        <button type="submit" class="btn primary">Submit Message</button>
+      </form>
+      <ul id="guestbookEntries" class="list guestbook-list"></ul>
+    </div>
+  </section>
+
+  <!-- Admin section -->
+  <section id="admin" class="section alt-bg">
+    <div class="container">
+    <h2 class="section-title" data-edit-id="admin-title">Admin Dashboard</h2>
+      <div id="adminLogin" class="admin-login glass">
+        <h3>Admin Access</h3>
+        <p>Enter the site password and admin key to view RSVPs.</p>
+        <div class="form-group">
+          <label for="sitePassword">Site password:</label>
+          <input type="password" id="sitePassword" required />
+        </div>
+        <div class="form-group">
+          <label for="adminKey">Admin key:</label>
+          <input type="password" id="adminKey" required />
+        </div>
+        <!-- Optional: Personal access token for GitHub API. This is stored locally in your browser only and never sent to anyone else. -->
+        <div class="form-group">
+          <label for="githubToken">GitHub personal access token (optional):</label>
+          <input type="password" id="githubToken" placeholder="PAT for persisting changes" />
+          <small>Leave blank to skip saving changes to GitHub.</small>
+        </div>
+        <button id="adminLoginBtn" class="btn primary">Login</button>
+        <p id="adminError" class="error hidden"></p>
+      </div>
+      
+      <div id="adminContent" class="admin-content hidden">
+        <div class="admin-actions">
+          <button id="exportCsvBtn" class="btn secondary small">Export RSVPs CSV</button>
+          <button id="exportSongsCsvBtn" class="btn secondary small">Export Songs CSV</button>
+          <button id="exportShuttlesCsvBtn" class="btn secondary small">Export Shuttles CSV</button>
+          <button id="clearRsvpsBtn" class="btn danger small">Clear RSVPs</button>
+          <!-- Buttons to manage the guestbook entries.  Admins can export
+               messages as a CSV or clear the guestbook entirely. -->
+          <button id="exportGuestbookBtn" class="btn secondary small">Export Guestbook CSV</button>
+          <button id="clearGuestbookBtn" class="btn danger small">Clear Guestbook</button>
+        </div>
+        <!-- Box 1: RSVP Entries -->
+        <div class="admin-box">
+          <h3>RSVP Entries</h3>
+          <div id="rsvpEntries" class="entries"></div>
+        </div>
+        <!-- Box 2: Song Suggestions -->
+        <div class="admin-box">
+          <h3>Song Suggestions</h3>
+          <ul id="songsList" class="list"></ul>
+        </div>
+        <!-- Box 3: Shuttle #1 Roster (Reception-only) -->
+        <div class="admin-box">
+          <h3>Shuttle #1 Roster (Reception‑only)</h3>
+          <ul id="shuttle1List" class="list"></ul>
+        </div>
+        <!-- Box 4: Shuttle #2 Roster (Late-night) -->
+        <div class="admin-box">
+          <h3>Shuttle #2 Roster (Late‑night)</h3>
+          <ul id="shuttle2List" class="list"></ul>
+        </div>
+        <!-- Box 5: Remaining Guests (Pending) -->
+        <div class="admin-box">
+          <h3>Remaining Guests (Pending)</h3>
+          <button id="togglePendingBtn" class="btn secondary small">Show/Hide Remaining Guests</button>
+          <ul id="pendingList" class="list hidden"></ul>
+        </div>
+        <!-- Box 6: Declined RSVPs -->
+        <div class="admin-box">
+          <h3>Declined RSVPs</h3>
+          <ul id="declinedList" class="list"></ul>
+        </div>
+
+        <!-- Box 7: Game High Scores -->
+        <div class="admin-box">
+          <h3>Game High Scores</h3>
+          <ul id="highScoresList" class="list"></ul>
+        </div>
+
+        <!-- Box 8: Edit Content Sections -->
+        <div class="admin-box">
+          <h3>Edit Content Sections</h3>
+          <p>Change the headings and text across your site (Our Story, Program intro, RSVP subtitle and Details cards). Your edits will appear instantly on the page and can be saved together.</p>
+          <!-- Dynamic content editor fields will be injected here via script.js. -->
+          <div id="contentEditor"></div>
+        </div>
+
+        <!-- Box 9: Edit Program Timeline -->
+        <div class="admin-box">
+          <h3>Edit Program Timeline</h3>
+          <p>Modify your wedding schedule using the simple event editor below. Each entry has fields for
+            <strong>time</strong>, <strong>title</strong>, and a <strong>description</strong>. You can optionally
+            add an emoji icon or a chip (small tag) with a label and URL—for example, to link to a map. Use
+            the arrows to reorder events or the remove button to delete one. Click <em>Add Event</em> to
+            insert a new row. When you’re done, click <strong>Save Program</strong> to update the timeline.</p>
+          <!-- Container for the dynamic program editor. Rows will be injected via script.js -->
+          <div id="programEditor"></div>
+          <!-- Buttons for editing the program timeline -->
+          <div class="program-editor-actions" style="margin-top: 0.5rem;">
+            <button id="addEventBtn" type="button" class="btn secondary small">Add Event</button>
+            <!-- The Save Program button has been removed. Use the Save All button below to commit timeline changes. -->
+          </div>
+        </div>
+
+        <!-- Box 10: Guestbook Messages -->
+        <div class="admin-box">
+          <h3>Guestbook Messages</h3>
+          <button id="toggleGuestbookAdminBtn" class="btn secondary small">Show/Hide Messages</button>
+          <ul id="adminGuestbookList" class="list hidden"></ul>
+        </div>
+
+        <!-- Box 11: Manage Highlight Reel and Guest Uploads -->
+        <div class="admin-box">
+          <h3>Highlight Gallery</h3>
+          <p>Upload up to four highlight images. These will play automatically in a slideshow for your guests.</p>
+          <!-- Highlight upload controls. Each slot corresponds to a slide in the highlight reel. -->
+          <div class="form-group">
+            <label for="highlightUpload0">Highlight 1:</label>
+            <input type="file" id="highlightUpload0" accept="image/*" />
+            <button id="clearHighlight0" class="btn danger small" type="button">Clear</button>
+          </div>
+          <div class="form-group">
+            <label for="highlightUpload1">Highlight 2:</label>
+            <input type="file" id="highlightUpload1" accept="image/*" />
+            <button id="clearHighlight1" class="btn danger small" type="button">Clear</button>
+          </div>
+          <div class="form-group">
+            <label for="highlightUpload2">Highlight 3:</label>
+            <input type="file" id="highlightUpload2" accept="image/*" />
+            <button id="clearHighlight2" class="btn danger small" type="button">Clear</button>
+          </div>
+          <div class="form-group">
+            <label for="highlightUpload3">Highlight 4:</label>
+            <input type="file" id="highlightUpload3" accept="image/*" />
+            <button id="clearHighlight3" class="btn danger small" type="button">Clear</button>
+          </div>
+          <h3 style="margin-top:1.5rem;">Guest Uploads</h3>
+          <p>When enabled, guests will be able to submit their own photos after the wedding. All submissions will remain pending until approved.</p>
+          <div class="form-group">
+            <input type="checkbox" id="enableGuestUploads" />
+            <label for="enableGuestUploads">Enable guest uploads</label>
+          </div>
+        </div>
+
+        <!-- Box 12: Our Story Photo -->
+        <div class="admin-box">
+          <h3>Our Story Photo</h3>
+          <p>Upload or change the photo displayed in the Our Story section.</p>
+          <div class="form-group">
+            <input type="file" id="storyImageUpload" accept="image/*" />
+            <button id="clearStoryImage" class="btn danger small" type="button">Clear</button>
+          </div>
+        </div>
+
+        <!-- Save All Changes button: commit content, program and other edits in one step -->
+        <div class="admin-box">
+          <!-- Hook the click handler inline so it always fires, even if JS event binding fails. -->
+          <button id="saveAllBtn" class="btn primary" onclick="saveAllChanges()">Save All Changes</button>
+          <!-- A small status message that appears after saving. It is hidden by default and shown via script.js. -->
+          <p id="saveAllStatus" class="status hidden" style="margin-top:0.5rem;color:green;"></p>
+        </div>
+
+        <!-- Raw entries (hidden by default) -->
+        <div id="rawContainer" class="hidden">
+          <h3>Raw Entries</h3>
+          <pre id="rawEntries" class="raw"></pre>
+        </div>
+        <!-- Designer Tools -->
+        <h3>Designer Tools</h3>
+        <div class="designer-tools">
+          <div class="form-group">
+            <label for="adminUploadImage">Upload image to gallery:</label>
+            <input type="file" id="adminUploadImage" accept="image/*" />
+          </div>
+          <div class="form-group">
+            <label for="adminUploadIcon">Upload icon/graphic (free placement):</label>
+            <input type="file" id="adminUploadIcon" accept="image/*" />
+          </div>
+
+          <!-- Upload hero background image for the hero section. Allows you to change the background photo on the fly. -->
+          <div class="form-group">
+            <label for="adminUploadHero">Upload hero background:</label>
+            <input type="file" id="adminUploadHero" accept="image/*" />
+          </div>
+          <div class="form-group">
+            <label for="adminUploadMusic">Upload music file:</label>
+            <input type="file" id="adminUploadMusic" accept="audio/*" />
+          </div>
+          <div class="form-group">
+            <label for="headerColorPicker">Header text color:</label>
+            <input type="color" id="headerColorPicker" value="#222222" />
+          </div>
+          <div class="form-group">
+            <label for="textColorPicker">Body text color:</label>
+            <input type="color" id="textColorPicker" value="#333333" />
+          </div>
+          <div class="form-group">
+            <label for="navBgColorPicker">Navigation background color:</label>
+            <input type="color" id="navBgColorPicker" value="#ffffff" />
+          </div>
+          <div class="form-group">
+            <label for="overlayOpacity">Background overlay opacity (35–90%):</label>
+            <input type="range" id="overlayOpacity" min="35" max="90" value="70" />
+          </div>
+          <div class="form-group">
+            <button id="toggleEditMode" class="btn secondary small">Toggle Edit Mode</button>
+            <button id="toggleRawEntries" class="btn secondary small">Toggle Raw Entries</button>
+          </div>
+          <!-- The separate Save Changes button is removed in favour of the unified Save All button. -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox overlay for viewing gallery images in full size.  It is hidden by default
+       and becomes visible when a gallery image is clicked.  Navigation buttons allow
+       visitors to move between images, and the close button returns to the gallery. -->
+  <div id="lightboxOverlay" class="lightbox hidden">
+    <button id="lightboxClose" class="lightbox-close" aria-label="Close image">×</button>
+    <button id="lightboxPrev" class="lightbox-nav lightbox-prev" aria-label="Previous image">‹</button>
+    <img id="lightboxImage" src="" alt="Gallery image" />
+    <button id="lightboxNext" class="lightbox-nav lightbox-next" aria-label="Next image">›</button>
+  </div>
+  <!-- Load the galleryImages script before the main script so the
+       galleryImages object is available globally. This script defines
+       window.galleryImages which contains base64 versions of the gallery
+       photos. -->
+  <script src="galleryImages.js"></script>
+  <script src="script.js"></script>
+  <!-- Everest Love Run game script has been moved to game.html -->
+  <!-- Background music audio (managed via admin tools) -->
+  <!--
+    The background music player is now visible to guests.  We expose the native
+    browser controls so visitors can pause or adjust the volume of whatever
+    track the admin has uploaded.  The element is positioned via CSS (see
+    styles.css) so it floats unobtrusively in the bottom corner of the page.
+  -->
+  <audio id="bgMusic" loop controls></audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    // Fix any 'amp;amp' occurrences in text content
+    function normalizeNodeText(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.nodeValue && node.nodeValue.includes('amp;amp')) {
+          node.nodeValue = node.nodeValue.replace(/amp;amp/g, '&');
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        node.childNodes.forEach(normalizeNodeText);
+      }
+    }
+    normalizeNodeText(document.body);
+    if (document.title && document.title.includes('amp;amp')) {
+      document.title = document.title.replace(/amp;amp/g, '&');
+    }
+  } catch (e) {
+    console.warn('Normalization error:', e);
+  }
+});
+</script>
+
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.section').forEach((el) => {
+      el.classList.add('animate');
+    });
+  });
+</script>
+
+  <!-- Fallback admin login script: allows access to the admin dashboard even if script.js fails -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var loginBtn = document.getElementById('adminLoginBtn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        var pw = document.getElementById('sitePassword').value || '';
+        var key = document.getElementById('adminKey').value || '';
+        var token = document.getElementById('githubToken').value || '';
+        var errorEl = document.getElementById('adminError');
+        if (pw.trim() === 'love' && key.trim() === 'evol') {
+          var loginPanel = document.getElementById('adminLogin');
+          var contentPanel = document.getElementById('adminContent');
+          if (loginPanel) loginPanel.classList.add('hidden');
+          if (contentPanel) contentPanel.classList.remove('hidden');
+          if (token) {
+            try {
+              localStorage.setItem('githubToken', token);
+            } catch (e) {
+              console.warn('Unable to store token:', e);
+            }
+          }
+          if (errorEl) errorEl.classList.add('hidden');
+        } else {
+          if (errorEl) {
+            errorEl.textContent = 'Incorrect password or admin key.';
+            errorEl.classList.remove('hidden');
+          }
+        }
+      });
+    }
+  });
+  </script>
+</body>
+</html>
