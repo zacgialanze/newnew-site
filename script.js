@@ -151,7 +151,6 @@ const guestList = [
 ];
 
 
-
 // Replace with your Google Sheets Apps Script endpoint URL
     const GS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzaIX7mykTqWOGqAlzeqhoJFEppmdwR_MTvgOICh0mePYXRbAVJrdZU9-E4vF7okOo/exec';
 
