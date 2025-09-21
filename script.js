@@ -1300,17 +1300,25 @@ function handleAdminLogin() {
   const pass = document.getElementById('sitePassword').value;
   const key = document.getElementById('adminKey').value;
   const error = document.getElementById('adminError');
+
   if (pass === 'love' && key === 'evol') {
     document.getElementById('adminLogin').classList.add('hidden');
     document.getElementById('adminContent').classList.remove('hidden');
     error.classList.add('hidden');
     renderAdmin();
-      fetchRsvpsFromSheets().then(data => {
-    if (Array.isArray(data)) {
-      localStorage.setItem('rsvps', JSON.stringify(data));
-      renderAdmin();
-    }
-  });
+
+    fetchRsvpsFromSheets().then(data => {
+      // Only update if there are actual RSVPs to import
+      if (Array.isArray(data) && data.length > 0) {
+        localStorage.setItem('rsvps', JSON.stringify(data));
+        renderAdmin();
+      }
+    });
+  } else {
+    error.classList.remove('hidden');
+  }
+}
+
 
     // Initialize the unified content editor. This replaces the old details editor.
     if (typeof initContentEditor === 'function') {
